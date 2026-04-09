@@ -1,105 +1,126 @@
 ﻿<Window x:Class="SportFederationsAccounting.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Учёт спортивных федераций v0.1" 
-        Height="780" 
-        Width="1380"
+        Title="Учёт спортивных федераций v0.2.0" 
+        Height="820" 
+        Width="1450"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F7FA">
+        Background="#F8F9FA">
+    <!-- === АНИМАЦИИ ДЛЯ ПАНЕЛИ === -->
+    <Window.Resources>
+        <Storyboard x:Key="SlideDownAnimation">
+            <DoubleAnimation Storyboard.TargetName="SpравочнаяПанель"
+                             Storyboard.TargetProperty="Height"
+                             From="0" To="380" 
+                             Duration="0:0:0.32"/>
+        </Storyboard>
 
+        <Storyboard x:Key="SlideUpAnimation">
+            <DoubleAnimation Storyboard.TargetName="SpравочнаяПанель"
+                             Storyboard.TargetProperty="Height"
+                             From="380" To="0" 
+                             Duration="0:0:0.25"/>
+        </Storyboard>
+    </Window.Resources>
+    
     <Grid>
         <!-- Верхнее меню -->
-        <DockPanel Background="#2C3E50" Height="85" Margin="0,0,0,670">
-            <TextBlock Text="Учёт спортивных федераций v0.1" 
-                       Foreground="White" 
-                       FontSize="24" 
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center" 
-                       Margin="35,0,0,0"/>
+        <DockPanel Background="#263248" Height="92" Margin="0,0,0,710">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="40,0,0,0">
+                <TextBlock Text="Учёт спортивных федераций" 
+                           Foreground="White" 
+                           FontSize="26" 
+                           FontWeight="SemiBold"/>
+                <TextBlock Text=" v0.2.0" 
+                           Foreground="#90A4AE" 
+                           FontSize="18" 
+                           Margin="14,6,0,0"/>
+            </StackPanel>
 
             <StackPanel Orientation="Horizontal" 
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Center" 
-                        Margin="0,0,40,0">
+                        Margin="0,0,50,0">
 
                 <Button Content="Начальная страница" 
                         Margin="15,0" 
-                        Width="170"
+                        Width="185"
                         Foreground="White" 
-                        Background="#34495E" 
+                        Background="#37474F" 
                         BorderThickness="0"
-                        FontSize="14"
+                        FontSize="15"
                         Click="BtnHome_Click"/>
 
                 <Button Content="Справочная информация" 
                         Margin="15,0" 
-                        Width="190"
+                        Width="205"
                         Foreground="White" 
-                        Background="#34495E" 
+                        Background="#37474F" 
                         BorderThickness="0"
-                        FontSize="14"
+                        FontSize="15"
                         Click="BtnSpравочная_Click"/>
 
                 <Button Content="Оформление документации" 
                         Margin="15,0" 
-                        Width="210"
+                        Width="225"
                         Foreground="White" 
-                        Background="#34495E" 
+                        Background="#37474F" 
                         BorderThickness="0"
-                        FontSize="14"/>
+                        FontSize="15"/>
 
                 <Button Content="Отчёты" 
                         Margin="15,0" 
-                        Width="130"
+                        Width="145"
                         Foreground="White" 
-                        Background="#34495E" 
+                        Background="#37474F" 
                         BorderThickness="0"
-                        FontSize="14"/>
+                        FontSize="15"/>
             </StackPanel>
         </DockPanel>
 
-        <!-- Основная область -->
-        <Border Margin="35,110,35,35" 
-                Background="White" 
-                CornerRadius="12"
-                Padding="50">
-            <TextBlock Text="Главный дашборд системы учёта спортивных федераций" 
-                       FontSize="27" 
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"
-                       Foreground="#2C3E50"
-                       TextAlignment="Center"/>
-        </Border>
+        <!-- Главный контейнер, куда будет подгружаться список федераций и другие страницы -->
+        <ContentControl x:Name="MainContent" 
+                        Margin="40,120,40,40" />
 
         <!-- Выдвижная панель -->
         <Grid x:Name="SpравочнаяПанель" 
-              Background="#2C3E50" 
-              Height="320" 
+              Background="#263248" 
+              Height="0" 
               VerticalAlignment="Top" 
-              Margin="0,85,0,0"
-              Visibility="Collapsed">
+              Margin="0,60,0,0">
 
             <Border Background="White" 
-                    CornerRadius="0,0,12,12" 
-                    Margin="20">
-                <StackPanel Margin="30">
+                    CornerRadius="0,0,16,16" 
+                    Margin="25"
+                    Padding="10">
+                <StackPanel Margin="30,25,30,30">
+
                     <TextBlock Text="Справочная информация" 
-                               FontSize="20" 
+                               FontSize="24" 
                                FontWeight="Medium" 
+                               Foreground="#263248"
                                Margin="0,0,0,25"/>
 
-                    <Button Content="Федерации" 
-                            Height="50" 
-                            FontSize="16"
-                            HorizontalAlignment="Left"
+                    <Button Content="📋 Федерации" 
+                            Height="65" 
+                            FontSize="18"
+                            HorizontalAlignment="Stretch"
                             Margin="0,8"
+                            Background="#F8F9FA"
+                            Foreground="#263248"
+                            BorderThickness="1"
+                            BorderBrush="#E0E0E0"
                             Click="BtnFederations_Click"/>
 
-                    <Button Content="Шаблоны Word" 
-                            Height="50" 
-                            FontSize="16"
-                            HorizontalAlignment="Left"
-                            Margin="0,8"/>
+                    <Button Content="📄 Шаблоны Word" 
+                            Height="65" 
+                            FontSize="18"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,8"
+                            Background="#F8F9FA"
+                            Foreground="#263248"
+                            BorderThickness="1"
+                            BorderBrush="#E0E0E0"/>
                 </StackPanel>
             </Border>
         </Grid>

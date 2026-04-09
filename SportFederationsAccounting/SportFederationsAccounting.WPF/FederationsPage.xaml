@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="SportFederationsAccounting.WPF.FederationsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="650" 
+             d:DesignWidth="1250">
+
+    <Grid>
+        <DockPanel>
+            <!-- Заголовок -->
+            <TextBlock Text="Федерации" 
+                       FontSize="28" 
+                       FontWeight="SemiBold"
+                       Foreground="#263248"
+                       Margin="0,0,0,25"
+                       DockPanel.Dock="Top"/>
+
+            <!-- Панель управления -->
+            <Border Background="White" 
+                    CornerRadius="8" 
+                    Padding="18" 
+                    Margin="0,0,0,20"
+                    DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="tbSearch" 
+                             Width="420" 
+                             Height="44" 
+                             FontSize="15"
+                             Margin="0,0,25,0"
+                             VerticalContentAlignment="Center"
+                             TextChanged="tbSearch_TextChanged"
+                             ToolTip="Поиск по названию, коду или ИНН..."/>
+
+                    <Button Content="Добавить новую федерацию" 
+                            Width="270" 
+                            Height="44" 
+                            Background="#263248"
+                            Foreground="White"
+                            FontSize="15"
+                            FontWeight="Medium"
+                            Click="BtnAddFederation_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Таблица (пока без привязок) -->
+            <DataGrid x:Name="dgFederations"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      GridLinesVisibility="None"
+                      AlternatingRowBackground="#F8F9FA"
+                      RowHeight="52"
+                      FontSize="14"
+                      MouseDoubleClick="dgFederations_MouseDoubleClick">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Код" Width="140" FontWeight="Medium"/>
+                    <DataGridTextColumn Header="Наименование федерации" Width="*"/>
+                    <DataGridTextColumn Header="Статус аккредитации" Width="230"/>
+                    <DataGridTextColumn Header="Состояние" Width="190"/>
+                    <DataGridTextColumn Header="Окончание аккредитации" Width="200"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Сообщение, когда таблица пустая -->
+            <TextBlock Text="Список федераций пока пуст.\nНажмите кнопку «Добавить новую федерацию» чтобы добавить первую запись."
+                       FontSize="16"
+                       Foreground="#888888"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       TextAlignment="Center"
+                       Margin="0,100,0,0"/>
+        </DockPanel>
+    </Grid>
+</UserControl>
