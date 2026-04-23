@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace SportFederationsAccounting.WPF
@@ -16,7 +17,35 @@ namespace SportFederationsAccounting.WPF
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)
         {
-            LoadHomePage();
+            // 1. Закрываем выдвижную панель, если она открыта
+            if (isPanelOpen)
+            {
+                var storyboard = (Storyboard)Resources["SlideUpAnimation"];
+                storyboard.Begin();
+
+                // Ждём окончания анимации и скрываем панель
+                System.Threading.Tasks.Task.Delay(300).ContinueWith(_ =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        SpравочнаяПанель.Visibility = Visibility.Collapsed;
+                        SpравочнаяПанель.Height = 0;
+                        isPanelOpen = false;
+                    });
+                });
+            }
+            // 2. Сбрасываем выделение кнопки "Справочная информация"
+            if (BtnSpравочная != null)
+            {
+                BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(38, 50, 72)); // #37474F
+                BtnSpравочная.Foreground = new SolidColorBrush(Colors.White);
+            }
+            MainContent.Content = new TextBlock
+            {
+                
+                
+                Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Gray)
+            };
         }
 
         private void BtnSpравочная_Click(object sender, RoutedEventArgs e)
@@ -25,19 +54,31 @@ namespace SportFederationsAccounting.WPF
 
             if (isPanelOpen)
             {
+                // Панель открывается
                 SpравочнаяПанель.Height = 0;
                 SpравочнаяПанель.Visibility = Visibility.Visible;
                 var storyboard = (Storyboard)Resources["SlideDownAnimation"];
                 storyboard.Begin();
+
+                // Выделяем кнопку серым фоном
+                BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(55, 71, 79));
+                BtnSpравочная.Foreground = new SolidColorBrush(Colors.White);
             }
             else
             {
+                // Панель закрывается
                 var storyboard = (Storyboard)Resources["SlideUpAnimation"];
                 storyboard.Begin();
 
                 System.Threading.Tasks.Task.Delay(300).ContinueWith(_ =>
                 {
-                    Dispatcher.Invoke(() => SpравочнаяПанель.Visibility = Visibility.Collapsed);
+                    Dispatcher.Invoke(() =>
+                    {
+                        SpравочнаяПанель.Visibility = Visibility.Collapsed;
+                        // Возвращаем кнопку в обычное состояние
+                        BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(55, 71, 79)); // #37474F
+                        BtnSpравочная.Foreground = new SolidColorBrush(Colors.White);
+                    });
                 });
             }
         }
@@ -53,15 +94,12 @@ namespace SportFederationsAccounting.WPF
 
         private void LoadHomePage()
         {
-            MainContent.Content = new TextBlock
-            {
-                Text = "Главный дашборд\n\nЗдесь будет статистика,\nколичество федераций и важная информация",
-                FontSize = 28,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextAlignment = TextAlignment.Center,
-                Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Gray)
-            };
+           
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

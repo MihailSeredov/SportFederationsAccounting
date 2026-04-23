@@ -13,10 +13,10 @@ namespace SportFederationsAccounting.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            // Строка подключения к SQLite
-            var connectionString = "Data Source=SportFederations.db";
+            // База данных будет лежать рядом с exe-файлом
+            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SportFederations.db");
 
-            optionsBuilder.UseSqlite(connectionString);
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
 
             return new AppDbContext(optionsBuilder.Options);
         }

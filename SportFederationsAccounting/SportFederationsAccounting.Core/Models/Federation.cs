@@ -12,7 +12,7 @@ namespace SportFederationsAccounting.Core.Models
 
         [Required]
         [MaxLength(50)]
-        public string Code { get; set; } = string.Empty;
+        public int Code { get; set; }
 
         [MaxLength(500)]
         public string FullName { get; set; } = string.Empty;
@@ -23,8 +23,8 @@ namespace SportFederationsAccounting.Core.Models
         public int? SportTypeId { get; set; }
         public SportType? SportType { get; set; }
 
-        public int AccreditationStatusId { get; set; }
-        public AccreditationStatus AccreditationStatus { get; set; } = null!;
+        public int? AccreditationStatusId { get; set; }
+        public AccreditationStatus? AccreditationStatus { get; set; } = null!;
 
         public int FederationStateId { get; set; }
         public FederationState FederationState { get; set; } = null!;
@@ -32,22 +32,22 @@ namespace SportFederationsAccounting.Core.Models
         public DateOnly? AccreditationEndDate { get; set; }
 
         [MaxLength(500)]
-        public string LegalAddress { get; set; } = string.Empty;
+        public string? LegalAddress { get; set; } = string.Empty;
 
         [MaxLength(500)]
-        public string PostalAddress { get; set; } = string.Empty;
+        public string? PostalAddress { get; set; } = string.Empty;
 
         [MaxLength(50)]
-        public string Phone { get; set; } = string.Empty;
+        public string? Phone { get; set; } = string.Empty;
 
         [MaxLength(100)]
-        public string Email { get; set; } = string.Empty;
+        public string? Email { get; set; } = string.Empty;
 
         [MaxLength(12)]
-        public string INN { get; set; } = string.Empty;
+        public string? INN { get; set; } = string.Empty;
 
         [MaxLength(15)]
-        public string OGRN { get; set; } = string.Empty;
+        public string? OGRN { get; set; } = string.Empty;
 
         public List<ContactPerson> ContactPersons { get; set; } = new();
     }
