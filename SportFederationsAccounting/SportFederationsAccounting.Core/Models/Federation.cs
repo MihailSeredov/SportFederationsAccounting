@@ -26,8 +26,8 @@ namespace SportFederationsAccounting.Core.Models
         public int? AccreditationStatusId { get; set; }
         public AccreditationStatus? AccreditationStatus { get; set; } = null!;
 
-        public int FederationStateId { get; set; }
-        public FederationState FederationState { get; set; } = null!;
+        public int? FederationStateId { get; set; }
+        public FederationState? FederationState { get; set; } = null!;
 
         public DateOnly? AccreditationEndDate { get; set; }
 

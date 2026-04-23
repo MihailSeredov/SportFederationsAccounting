@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportFederationsAccounting.Data;
 
@@ -10,9 +11,11 @@ using SportFederationsAccounting.Data;
 namespace SportFederationsAccounting.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260423090349_MakeAccreditationStatusNullable")]
+    partial class MakeAccreditationStatusNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.25");
@@ -97,7 +100,7 @@ namespace SportFederationsAccounting.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("FederationStateId")
+                    b.Property<int>("FederationStateId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FullName")
@@ -219,7 +222,9 @@ namespace SportFederationsAccounting.Data.Migrations
 
                     b.HasOne("SportFederationsAccounting.Core.Models.FederationState", "FederationState")
                         .WithMany()
-                        .HasForeignKey("FederationStateId");
+                        .HasForeignKey("FederationStateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SportFederationsAccounting.Core.Models.SportType", "SportType")
                         .WithMany()
