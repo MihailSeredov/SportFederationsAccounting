@@ -8,11 +8,27 @@ namespace SportFederationsAccounting.WPF
     public partial class MainWindow : Window
     {
         private bool isPanelOpen = false;
+        public int? AddedFederationCode { get; set; }
+        // Метод для обновления списка
+        public void RefreshFederationsList(int? newFederationCode = null)
+        {
+            // Переключаемся на страницу Федераций, если ещё не там
+            if (MainContent.Content is not FederationsPage)
+            {
+                MainContent.Content = new FederationsPage();
+            }
+
+            if (MainContent.Content is FederationsPage page)
+            {
+                page.RefreshList(newFederationCode);
+            }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
             LoadHomePage();                    // при запуске показываем дашборд
+
         }
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)

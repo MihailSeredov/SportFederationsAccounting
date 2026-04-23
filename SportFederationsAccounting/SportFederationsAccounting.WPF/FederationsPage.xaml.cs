@@ -1,42 +1,79 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.EntityFrameworkCore;
+using SportFederationsAccounting.Data;
+using SportFederationsAccounting.Core.Models;
 
 namespace SportFederationsAccounting.WPF
 {
     public partial class FederationsPage : UserControl
     {
+        private readonly AppDbContext _context;
+
         public FederationsPage()
         {
             InitializeComponent();
+            _context = new AppDbContextFactory().CreateDbContext(null!);
+            LoadFederations();
         }
 
-        private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private void LoadFederations()
         {
-            // Пока просто заглушка
-            MessageBox.Show("Поиск: " + tbSearch.Text);
+            try
+            {
+                var federations = _context.Federations
+                    .Include(f => f.SportType)
+                    .Include(f => f.AccreditationStatus)
+                    .Include(f => f.FederationState)
+                    .OrderBy(f => f.Code)
+                    .ToList();
+
+                dgFederations.ItemsSource = federations;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки списка федераций:\n{ex.Message}",
+                               "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void RefreshList(int? newFederationCode = null)
+        {
+            LoadFederations();
+
+            if (newFederationCode.HasValue)
+            {
+                var item = dgFederations.Items.Cast<Federation>()
+                    .FirstOrDefault(f => f.Code == newFederationCode.Value);
+
+                if (item != null)
+                {
+                    dgFederations.SelectedItem = item;
+                    dgFederations.ScrollIntoView(item);
+
+                    // Дополнительно — принудительно обновляем UI
+                    dgFederations.Focus();
+                }
+            }
         }
 
         private void BtnAddFederation_Click(object sender, RoutedEventArgs e)
         {
-            var addWindow = new FederationAddWindow();
-
-            bool? result = addWindow.ShowDialog();
-
-            if (result == true)
+            var window = new FederationAddWindow();
+            if (window.ShowDialog() == true)
             {
-                MessageBox.Show("Федерация была успешно добавлена!\n\n(Пока только заглушка. В будущем здесь будет обновление списка)",
-                                "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // В будущем здесь будет обновление таблицы
+                RefreshList();   // обновляем список
             }
         }
 
         private void dgFederations_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (dgFederations.SelectedItem != null)
+            if (dgFederations.SelectedItem is Federation f)
             {
-                MessageBox.Show("Открывается карточка выбранной федерации", "Редактирование федерации");
+                MessageBox.Show($"Открыта федерация: {f.FullName} (Код: {f.Code})", "Информация");
             }
         }
     }

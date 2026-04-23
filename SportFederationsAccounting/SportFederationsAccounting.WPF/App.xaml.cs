@@ -1,18 +1,14 @@
-﻿using SportFederationsAccounting.Data;
-using System.Configuration;
-using System.Data;
-using System.Windows;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SportFederationsAccounting.Core.Models;
+using SportFederationsAccounting.Data;
+using System;
 using System.IO;
+using System.Windows;
 
 namespace SportFederationsAccounting.WPF
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
-        private static readonly string DbFileName = "SportFederations.db";
         private static readonly string LogFilePath = "error.log";
 
         protected override void OnStartup(StartupEventArgs e)
@@ -23,25 +19,66 @@ namespace SportFederationsAccounting.WPF
             {
                 using var context = new AppDbContextFactory().CreateDbContext(null!);
 
-                // Автоматически применяем миграции (структура обновляется, данные сохраняются)
-                context.Database.Migrate();
+                context.Database.EnsureCreated();
 
-                LogToFile("База данных успешно обновлена.");
+                InitializeDictionaries(context);
+
+                LogToFile("База данных успешно инициализирована.");
             }
             catch (Exception ex)
             {
-                string errorMessage = $"Ошибка при инициализации базы данных:\n{ex.Message}";
+                string innerMessage = ex.InnerException?.Message ?? "Нет внутренней ошибки";
+                string fullError = $"Ошибка при инициализации базы:\n\n{innerMessage}\n\nПолная ошибка:\n{ex}";
 
-                MessageBox.Show(errorMessage, "Ошибка базы данных",
+                MessageBox.Show(fullError, "Критическая ошибка",
                                MessageBoxButton.OK, MessageBoxImage.Error);
 
-                LogToFile($"КРИТИЧЕСКАЯ ОШИБКА:\n{errorMessage}\n\n{ex}");
+                LogToFile($"КРИТИЧЕСКАЯ ОШИБКА:\n{fullError}");
             }
         }
 
-        /// <summary>
-        /// Простое логирование ошибок в файл error.log
-        /// </summary>
+        private void InitializeDictionaries(AppDbContext context)
+        {
+            // Вид спорта
+            if (!context.SportTypes.Any())
+            {
+                context.SportTypes.AddRange(new[]
+                {
+            new SportType { Id = 1, Name = "Лыжные гонки" },
+            new SportType { Id = 2, Name = "Биатлон" },
+            new SportType { Id = 3, Name = "Фигурное катание" },
+            new SportType { Id = 4, Name = "Хоккей" },
+            new SportType { Id = 5, Name = "Футбол" }
+        });
+            }
+
+            // Статус аккредитации
+            if (!context.AccreditationStatuses.Any())
+            {
+                context.AccreditationStatuses.AddRange(new[]
+                {
+            new AccreditationStatus { Id = 1, Name = "Аккредитована" },
+            new AccreditationStatus { Id = 2, Name = "Аккредитация в процессе" },
+            new AccreditationStatus { Id = 3, Name = "Отказ в аккредитации" },
+            new AccreditationStatus { Id = 4, Name = "Аккредитация завершена" }
+        });
+            }
+
+            // Состояние федерации
+            if (!context.FederationStates.Any())
+            {
+                context.FederationStates.AddRange(new[]
+                {
+            new FederationState { Id = 1, Name = "Действующая" },
+            new FederationState { Id = 2, Name = "В процессе реорганизации" },
+            new FederationState { Id = 3, Name = "В статусе ликвидации" },
+            new FederationState { Id = 4, Name = "Ликвидирована" }
+        });
+            }
+
+            context.SaveChanges();
+        }
+
         private static void LogToFile(string message)
         {
             try
@@ -53,5 +90,3 @@ namespace SportFederationsAccounting.WPF
         }
     }
 }
-
-

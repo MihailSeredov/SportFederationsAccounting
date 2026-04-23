@@ -26,8 +26,24 @@
         <StackPanel Grid.Row="1" Margin="0,0,0,40">
 
             <!-- Код и короткое наименование -->
+            
             <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                <StackPanel Width="180" Margin="0,0,20,0">
+
+                <!-- Короткое наименование (теперь слева, шире) -->
+                <StackPanel Width="400" Margin="0,0,20,0">
+                    <TextBlock Text="Наименование" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <TextBox x:Name="tbShortName" 
+                 Height="42" 
+                 FontSize="15"
+                 VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Код (теперь справа, узкое поле) -->
+                <StackPanel Width="125">
                     <TextBlock Text="Код" 
                    FontSize="15" 
                    FontWeight="Medium"
@@ -40,19 +56,6 @@
                  IsReadOnly="True"
                  Background="#F5F5F5"
                  HorizontalContentAlignment="Center"
-                 VerticalContentAlignment="Center" Text=""
-                 Margin="0,0,60,0"/>
-                </StackPanel>
-
-                <StackPanel Width="400">
-                    <TextBlock Text="Короткое наименование" 
-                   FontSize="15" 
-                   FontWeight="Medium"
-                   VerticalAlignment="Center"
-                   Margin="0,0,0,8"/>
-                    <TextBox x:Name="tbShortName" 
-                 Height="42" 
-                 FontSize="15"
                  VerticalContentAlignment="Center"/>
                 </StackPanel>
             </StackPanel>

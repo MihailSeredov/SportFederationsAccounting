@@ -25,29 +25,29 @@ namespace SportFederationsAccounting.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Уникальность кодов
+            // Настройка связей
+            modelBuilder.Entity<Federation>()
+                .HasOne(f => f.SportType)
+                .WithMany()
+                .HasForeignKey(f => f.SportTypeId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Federation>()
+                .HasOne(f => f.AccreditationStatus)
+                .WithMany()
+                .HasForeignKey(f => f.AccreditationStatusId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Federation>()
+                .HasOne(f => f.FederationState)
+                .WithMany()
+                .HasForeignKey(f => f.FederationStateId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Уникальность кода федерации
             modelBuilder.Entity<Federation>()
                 .HasIndex(f => f.Code)
                 .IsUnique();
-
-            modelBuilder.Entity<SportType>()
-                .HasIndex(s => s.Code)
-                .IsUnique();
-
-            modelBuilder.Entity<AccreditationStatus>()
-                .HasIndex(s => s.Code)
-                .IsUnique();
-
-            modelBuilder.Entity<FederationState>()
-                .HasIndex(s => s.Code)
-                .IsUnique();
-
-            // Связь ContactPerson с Federation
-            modelBuilder.Entity<ContactPerson>()
-                .HasOne(c => c.Federation)
-                .WithMany(f => f.ContactPersons)
-                .HasForeignKey(c => c.FederationId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace SportFederationsAccounting.WPF
         {
             if (string.IsNullOrWhiteSpace(tbFullName.Text))
             {
-                MessageBox.Show("Поле 'Полное наименование' обязательно для заполнения!",
+                MessageBox.Show("Поле 'Полное наименование' обязательно!",
                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 tbFullName.Focus();
                 return;
@@ -78,7 +78,6 @@ namespace SportFederationsAccounting.WPF
                 if (!int.TryParse(tbCode.Text, out int code))
                 {
                     MessageBox.Show("Код федерации должен быть числом!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    tbCode.Focus();
                     return;
                 }
 
@@ -87,24 +86,27 @@ namespace SportFederationsAccounting.WPF
                     Code = code,
                     ShortName = tbShortName.Text?.Trim(),
                     FullName = tbFullName.Text.Trim(),
-                    // Остальные поля (SportTypeId, AccreditationStatusId и т.д.) пока оставляем null
-                    // Это нормально, потому что мы сделали их необязательными в миграции
+                    SportTypeId = cbSportType.SelectedIndex >= 0 ? cbSportType.SelectedIndex + 1 : null,
+                    AccreditationStatusId = cbAccreditationStatus.SelectedIndex >= 0 ? cbAccreditationStatus.SelectedIndex + 1 : null,
+                    FederationStateId = cbFederationState.SelectedIndex >= 0 ? cbFederationState.SelectedIndex + 1 : null
                 };
 
                 _context.Federations.Add(federation);
                 _context.SaveChanges();
 
-                MessageBox.Show($"Федерация успешно сохранена!\n\nКод: {tbCode.Text}\nПолное наименование: {tbFullName.Text}",
-                               "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                // Закрываем окно без сообщения об успехе
                 DialogResult = true;
                 Close();
+
+                // Передаём управление главному окну для обновления и выделения
+                if (Application.Current.MainWindow is MainWindow mainWindow)
+                {
+                    mainWindow.RefreshFederationsList(code);
+                }
             }
             catch (Exception ex)
             {
-                string innerMessage = ex.InnerException?.Message ?? ex.Message;
-                MessageBox.Show($"Ошибка при сохранении:\n{innerMessage}",
-                               "Ошибка сохранения", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка сохранения:\n{ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
