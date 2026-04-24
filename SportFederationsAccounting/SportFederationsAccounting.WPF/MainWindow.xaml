@@ -14,17 +14,17 @@
         <Storyboard x:Key="SlideDownAnimation">
             <DoubleAnimation Storyboard.TargetName="SpравочнаяПанель"
                              Storyboard.TargetProperty="Height"
-                             From="0" To="380"
+                             From="0" To="300"
                              Duration="0:0:0.32"/>
         </Storyboard>
         <Storyboard x:Key="SlideUpAnimation">
             <DoubleAnimation Storyboard.TargetName="SpравочнаяПанель"
                              Storyboard.TargetProperty="Height"
-                             From="380" To="0"
+                             From="300" To="0"
                              Duration="0:0:0.25"/>
         </Storyboard>
 
-        <!-- Стиль меню -->
+        <!-- Стиль для обычных кнопок -->
         <Style x:Key="MenuButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -36,13 +36,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                              VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#455A64"/>
@@ -64,12 +62,13 @@
                         Click="BtnHome_Click"/>
 
                 <Button x:Name="BtnSpравочная"
-                        Content="Справочная информация" 
-                        Width="230"
-                        Height="72"
-                        Margin="0,0,12,0"
-                        Style="{StaticResource MenuButtonStyle}"
-                        Click="BtnSpравочная_Click"/>
+        Content="Справочная информация"
+        Width="250"
+        Height="72"
+        Margin="0,0,12,0"
+        Padding="12,0"
+        Style="{StaticResource MenuButtonStyle}"
+        Click="BtnSpравочная_Click"/>
 
                 <Button Content="Оформление документации" 
                         Width="255"
@@ -92,7 +91,7 @@
         <!-- Выдвижная панель -->
         <Grid x:Name="SpравочнаяПанель" 
               Background="#263248" 
-              Height="0" 
+              Height="0"             
               VerticalAlignment="Top" 
               Margin="0,72,0,0">
             <Border Background="White" 
@@ -100,11 +99,6 @@
                     Margin="25"
                     Padding="10">
                 <StackPanel Margin="30,25,30,30">
-                    <TextBlock Text="Справочная информация" 
-                               FontSize="24" 
-                               FontWeight="Medium" 
-                               Foreground="#263248"
-                               Margin="0,0,0,25"/>
                     <Button Content="📋 Федерации" 
                             Height="65" 
                             FontSize="18"

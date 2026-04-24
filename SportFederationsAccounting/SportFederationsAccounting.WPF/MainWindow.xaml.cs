@@ -7,7 +7,8 @@ namespace SportFederationsAccounting.WPF
 {
     public partial class MainWindow : Window
     {
-        private bool isPanelOpen = false;
+        
+        private bool isSpравочнаяPanelOpen = false;
         public int? AddedFederationCode { get; set; }
         // Метод для обновления списка
         public void RefreshFederationsList(int? newFederationCode = null)
@@ -33,78 +34,63 @@ namespace SportFederationsAccounting.WPF
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Закрываем выдвижную панель, если она открыта
-            if (isPanelOpen)
-            {
-                var storyboard = (Storyboard)Resources["SlideUpAnimation"];
-                storyboard.Begin();
+            MainContent.Content = null;   // или твоя главная страница
 
-                // Ждём окончания анимации и скрываем панель
-                System.Threading.Tasks.Task.Delay(300).ContinueWith(_ =>
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        SpравочнаяПанель.Visibility = Visibility.Collapsed;
-                        SpравочнаяПанель.Height = 0;
-                        isPanelOpen = false;
-                    });
-                });
-            }
-            // 2. Сбрасываем выделение кнопки "Справочная информация"
-            if (BtnSpравочная != null)
+            if (isSpравочнаяPanelOpen)
             {
-                BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(38, 50, 72)); // #37474F
-                BtnSpравочная.Foreground = new SolidColorBrush(Colors.White);
+                var slideUp = (Storyboard)FindResource("SlideUpAnimation");
+                slideUp.Begin();
+                isSpравочнаяPanelOpen = false;
+
+                ResetSpравочнаяButton();
             }
-            MainContent.Content = new TextBlock
-            {
-                
-                
-                Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Gray)
-            };
+
+
         }
-
+        private void ResetSpравочнаяButton()
+        {
+            // Это полностью снимает локальное значение и возвращает контроль стилю
+            BtnSpравочная.ClearValue(Button.BackgroundProperty);
+            BtnSpравочная.ClearValue(Button.ForegroundProperty);
+        }
+        
         private void BtnSpравочная_Click(object sender, RoutedEventArgs e)
         {
-            isPanelOpen = !isPanelOpen;
-
-            if (isPanelOpen)
+            if (isSpравочнаяPanelOpen)
             {
-                // Панель открывается
-                SpравочнаяПанель.Height = 0;
-                SpравочнаяПанель.Visibility = Visibility.Visible;
-                var storyboard = (Storyboard)Resources["SlideDownAnimation"];
-                storyboard.Begin();
+                // Закрываем панель
+                var slideUp = (Storyboard)FindResource("SlideUpAnimation");
+                slideUp.Begin();
+                isSpравочнаяPanelOpen = false;
 
-                // Выделяем кнопку серым фоном
-                BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(55, 71, 79));
-                BtnSpравочная.Foreground = new SolidColorBrush(Colors.White);
+                ResetSpравочнаяButton();        // ← возвращаем в обычное состояние
             }
             else
             {
-                // Панель закрывается
-                var storyboard = (Storyboard)Resources["SlideUpAnimation"];
-                storyboard.Begin();
+                // Открываем панель
+                var slideDown = (Storyboard)FindResource("SlideDownAnimation");
+                slideDown.Begin();
+                isSpравочнаяPanelOpen = true;
 
-                System.Threading.Tasks.Task.Delay(300).ContinueWith(_ =>
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        SpравочнаяПанель.Visibility = Visibility.Collapsed;
-                        // Возвращаем кнопку в обычное состояние
-                        BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(55, 71, 79)); // #37474F
-                        BtnSpравочная.Foreground = new SolidColorBrush(Colors.White);
-                    });
-                });
+                BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(69, 90, 100)); // #455A64
+                BtnSpравочная.Foreground = new SolidColorBrush(Color.FromRgb(17, 17, 17));   // ← выделяем кнопку
             }
         }
 
+
+
         private void BtnFederations_Click(object sender, RoutedEventArgs e)
         {
-            SpравочнаяПанель.Visibility = Visibility.Collapsed;
-            isPanelOpen = false;
+            if (isSpравочнаяPanelOpen)
+            {
+                var slideUp = (Storyboard)FindResource("SlideUpAnimation");
+                slideUp.Begin();
+                isSpравочнаяPanelOpen = false;
 
-            // Загружаем список федераций
+                ResetSpравочнаяButton();   
+            }
+
+            // Переключаемся на страницу Федераций
             MainContent.Content = new FederationsPage();
         }
 
