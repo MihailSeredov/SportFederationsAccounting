@@ -42,20 +42,26 @@ namespace SportFederationsAccounting.WPF
 
         public void RefreshList(int? newFederationCode = null)
         {
-            LoadFederations();
+            // Полная перезагрузка с отключением отслеживания
+            _context.ChangeTracker.Clear(); // сбрасываем все отслеживаемые сущности
+
+            var federations = _context.Federations
+                .AsNoTracking()
+                .Include(f => f.SportType)
+                .Include(f => f.AccreditationStatus)
+                .Include(f => f.FederationState)
+                .OrderBy(f => f.Code)
+                .ToList();
+
+            dgFederations.ItemsSource = federations;
 
             if (newFederationCode.HasValue)
             {
-                var item = dgFederations.Items.Cast<Federation>()
-                    .FirstOrDefault(f => f.Code == newFederationCode.Value);
-
+                var item = federations.FirstOrDefault(f => f.Code == newFederationCode.Value);
                 if (item != null)
                 {
                     dgFederations.SelectedItem = item;
                     dgFederations.ScrollIntoView(item);
-
-                    // Дополнительно — принудительно обновляем UI
-                    dgFederations.Focus();
                 }
             }
         }
@@ -71,10 +77,21 @@ namespace SportFederationsAccounting.WPF
 
         private void dgFederations_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (dgFederations.SelectedItem is Federation f)
+            if (dgFederations.SelectedItem is Federation selectedFederation)
             {
-                MessageBox.Show($"Открыта федерация: {f.FullName} (Код: {f.Code})", "Информация");
+                var editWindow = new FederationEditWindow(selectedFederation);
+
+                if (editWindow.ShowDialog() == true)
+                {
+                    // После успешного редактирования обновляем список
+                    LoadFederations();
+
+                    // Выделяем отредактированную федерацию
+                    dgFederations.SelectedItem = selectedFederation;
+                    dgFederations.ScrollIntoView(selectedFederation);
+                }
             }
         }
+        
     }
 }

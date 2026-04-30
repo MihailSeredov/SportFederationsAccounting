@@ -25,12 +25,25 @@ namespace SportFederationsAccounting.WPF
 
         private void LoadComboBoxes()
         {
-            // Вид спорта
-            cbSportType.Items.Add("Лыжные гонки");
-            cbSportType.Items.Add("Биатлон");
-            cbSportType.Items.Add("Фигурное катание");
-            cbSportType.Items.Add("Хоккей");
-            cbSportType.Items.Add("Футбол");
+            // === Вид спорта - умная логика ===
+            var sportTypes = _context.SportTypes.OrderBy(s => s.Name).ToList();
+
+            if (sportTypes.Count <= 1)
+            {
+                // Мало элементов — показываем ComboBox
+                cbSportType.Visibility = Visibility.Visible;
+                BtnSelectSportType.Visibility = Visibility.Collapsed;
+
+                cbSportType.ItemsSource = sportTypes;
+                cbSportType.DisplayMemberPath = "Name";
+                cbSportType.SelectedValuePath = "Id";
+            }
+            else
+            {
+                // Много элементов — показываем кнопку выбора из справочника
+                cbSportType.Visibility = Visibility.Collapsed;
+                BtnSelectSportType.Visibility = Visibility.Visible;
+            }
 
             // Статус аккредитации
             cbAccreditationStatus.Items.Add("Аккредитована");
@@ -43,6 +56,11 @@ namespace SportFederationsAccounting.WPF
             cbFederationState.Items.Add("В процессе реорганизации");
             cbFederationState.Items.Add("В статусе ликвидации");
             cbFederationState.Items.Add("Ликвидирована");
+        }
+        private void BtnSelectSportType_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Окно выбора из справочника 'Виды спорта' пока в разработке.\n\nСкоро будет полноценный поиск и выбор.",
+                           "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void GenerateNextCode()
@@ -88,7 +106,12 @@ namespace SportFederationsAccounting.WPF
                     FullName = tbFullName.Text.Trim(),
                     SportTypeId = cbSportType.SelectedIndex >= 0 ? cbSportType.SelectedIndex + 1 : null,
                     AccreditationStatusId = cbAccreditationStatus.SelectedIndex >= 0 ? cbAccreditationStatus.SelectedIndex + 1 : null,
-                    FederationStateId = cbFederationState.SelectedIndex >= 0 ? cbFederationState.SelectedIndex + 1 : null
+                    FederationStateId = cbFederationState.SelectedIndex >= 0 ? cbFederationState.SelectedIndex + 1 : null,
+                    LegalAddress = tbLegalAddress.Text?.Trim(),
+                    PostalAddress = tbPostalAddress.Text?.Trim(),
+                    Phone = tbPhone.Text?.Trim(),
+                    Email = tbEmail.Text?.Trim(),
+                    AccreditationEndDate = dpAccreditationEnd.SelectedDate.HasValue ? DateOnly.FromDateTime(dpAccreditationEnd.SelectedDate.Value) : null
                 };
 
                 _context.Federations.Add(federation);
@@ -120,6 +143,11 @@ namespace SportFederationsAccounting.WPF
         {
             _context?.Dispose();   // Освобождаем ресурсы базы
             base.OnClosed(e);
+        }
+
+        private void cbAccreditationStatus_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

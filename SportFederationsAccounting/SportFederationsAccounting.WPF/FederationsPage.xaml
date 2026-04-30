@@ -65,6 +65,10 @@
                 <DataGridTextColumn Header="Состояние" 
                     Binding="{Binding FederationState.Name}" 
                     Width="170"/>
+                <DataGridTextColumn Header="Дата окончания аккредитации" 
+                    Binding="{Binding AccreditationEndDate, StringFormat={}{0:dd.MM.yyyy}}" 
+                    Width="170"
+                    IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
