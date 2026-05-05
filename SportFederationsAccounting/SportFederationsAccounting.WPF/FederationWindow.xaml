@@ -1,0 +1,231 @@
+﻿<Window x:Class="SportFederationsAccounting.WPF.FederationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Карточка федерации" 
+        Height="870" 
+        Width="960"
+        WindowStartupLocation="CenterScreen"
+        Background="#F8F9FA"
+        ResizeMode="NoResize">
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Карточка федерации" 
+                   FontSize="26" 
+                   FontWeight="SemiBold"
+                   Foreground="#263248"
+                   Margin="0,0,0,35"/>
+
+        <!-- Основная форма -->
+        <StackPanel Grid.Row="1" Margin="0,0,0, -30">
+
+            <!-- Код и короткое наименование -->
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+
+                <!-- Короткое наименование (теперь слева, шире) -->
+                <StackPanel Width="400" Margin="0,0,20,0">
+                    <TextBlock Text="Наименование" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <TextBox x:Name="tbShortName" 
+                 Height="42" 
+                 FontSize="15"
+                 VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Код (теперь справа, узкое поле) -->
+                <StackPanel Width="125">
+                    <TextBlock Text="Код" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <TextBox x:Name="tbCode" 
+                 Width="120" 
+                 Height="42" 
+                 FontSize="15"
+                 IsReadOnly="True"
+                 Background="#F5F5F5"
+                 HorizontalContentAlignment="Center"
+                 VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Полное наименование -->
+            <StackPanel Margin="0,0,0,20">
+                <TextBlock Text="Полное наименование *" 
+               FontSize="15" 
+               FontWeight="Medium"
+               VerticalAlignment="Center"
+               Margin="0,0,0,8"/>
+                <TextBox x:Name="tbFullName" 
+             Height="42" 
+             FontSize="15"
+             VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Вид спорта и Статус аккредитации -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <!-- Вид спорта -->
+                <StackPanel Margin="0,0">
+                    <TextBlock Text="Вид спорта *" 
+               FontSize="15" 
+               Margin="0,0,0,8"
+               FontWeight="Medium"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="280"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox x:Name="cbSportType" 
+                  Height="42"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="Id"
+                  VerticalAlignment="Center"
+                  Margin="0,0,0,0"
+                  FontSize="15"
+                  VerticalContentAlignment="Center"/>
+
+                        <Button Grid.Column="1"
+                Width="42"
+                Height="42"
+                Content="..."
+                FontSize="18"
+                FontWeight="Bold"
+                Click="BtnSelectSportType_Click"
+                Margin="0,0,28,0"/>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Width="380">
+                    <TextBlock Text="Статус аккредитации *" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <ComboBox x:Name="cbAccreditationStatus" 
+                  Height="42" 
+                  FontSize="15"
+                  VerticalContentAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Состояние федерации и Дата окончания -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <StackPanel Width="380" Margin="0,0,30,0">
+                    <TextBlock Text="Состояние федерации *" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <ComboBox x:Name="cbFederationState" 
+                  Height="42" 
+                  FontSize="15"
+                  VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Width="380">
+                    <TextBlock Text="Дата окончания аккредитации" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <DatePicker x:Name="dpAccreditationEnd" 
+                    Height="42" 
+                    FontSize="15"
+                    VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Контактная информация -->
+            <StackPanel Margin="0,0,0,20">
+                <TextBlock Text="Контактная информация" 
+               FontSize="16" 
+               FontWeight="SemiBold"
+               Margin="0,0,0,12"/>
+
+                <StackPanel Margin="0,0,0,12">
+                    <TextBlock Text="Юридический адрес" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <TextBox x:Name="tbLegalAddress" 
+                 Height="42" 
+                 FontSize="15"
+                 VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,12">
+                    <TextBlock Text="Почтовый адрес" 
+                   FontSize="15" 
+                   FontWeight="Medium"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,8"/>
+                    <TextBox x:Name="tbPostalAddress" 
+                 Height="42" 
+                 FontSize="15"
+                 VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="380" Margin="0,0,30,0">
+                        <TextBlock Text="Телефон" 
+                       FontSize="15" 
+                       FontWeight="Medium"
+                       VerticalAlignment="Center"
+                       Margin="0,0,0,8"/>
+                        <TextBox x:Name="tbPhone" 
+                     Height="42" 
+                     FontSize="15"
+                     VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Width="380">
+                        <TextBlock Text="E-mail" 
+                       FontSize="15" 
+                       FontWeight="Medium"
+                       VerticalAlignment="Center"
+                       Margin="0,0,0,8"/>
+                        <TextBox x:Name="tbEmail" 
+                     Height="42" 
+                     FontSize="15"
+                     VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Кнопки -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button Content="Отмена" 
+                    Width="150" 
+                    Height="50" 
+                    Background="#E0E0E0"
+                    Foreground="#263248"
+                    FontSize="15"
+                    Margin="0,0,20,0"
+                    Click="BtnCancel_Click"/>
+
+                <Button Content="Сохранить федерацию" 
+                    Width="220" 
+                    Height="50" 
+                    Background="#263248"
+                    Foreground="White"
+                    FontSize="15"
+                    FontWeight="Medium"
+                    Click="BtnSave_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

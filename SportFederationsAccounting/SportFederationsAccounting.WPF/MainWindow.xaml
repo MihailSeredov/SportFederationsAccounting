@@ -1,7 +1,7 @@
 ﻿<Window x:Class="SportFederationsAccounting.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Учёт спортивных федераций v0.2.3"
+        Title="Учёт спортивных федераций v0.2.4"
         Height="820"
         Width="1450"
         MinWidth="1100"
@@ -14,17 +14,17 @@
         <Storyboard x:Key="SlideDownAnimation">
             <DoubleAnimation Storyboard.TargetName="SpравочнаяПанель"
                              Storyboard.TargetProperty="Height"
-                             From="0" To="300"
+                             From="0" To="260"
                              Duration="0:0:0.32"/>
         </Storyboard>
         <Storyboard x:Key="SlideUpAnimation">
             <DoubleAnimation Storyboard.TargetName="SpравочнаяПанель"
                              Storyboard.TargetProperty="Height"
-                             From="300" To="0"
+                             From="260" To="0"
                              Duration="0:0:0.25"/>
         </Storyboard>
 
-        <!-- Стиль для обычных кнопок -->
+        <!-- Стиль для кнопок -->
         <Style x:Key="MenuButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -43,8 +43,8 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#455A64"/>
-                    <Setter Property="Foreground" Value="#111111"/>
+                    <Setter Property="Background" Value="#BEE6FD"/>
+                    <Setter Property="Foreground" Value="#263248"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -98,26 +98,41 @@
                     CornerRadius="0,0,16,16" 
                     Margin="25"
                     Padding="10">
-                <StackPanel Margin="30,25,30,30">
-                    <Button Content="📋 Федерации" 
-                            Height="65" 
-                            FontSize="18"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,8"
-                            Background="#F8F9FA"
-                            Foreground="#263248"
-                            BorderThickness="1"
-                            BorderBrush="#E0E0E0"
-                            Click="BtnFederations_Click"/>
-                    <Button Content="📄 Шаблоны Word" 
-                            Height="65" 
-                            FontSize="18"
-                            HorizontalAlignment="Stretch"
-                            Margin="0,8"
-                            Background="#F8F9FA"
-                            Foreground="#263248"
-                            BorderThickness="1"
-                            BorderBrush="#E0E0E0"/>
+                <StackPanel>
+                    <Button Content="📋 Федерации"
+                    Height="52"
+                    FontSize="16"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,6"
+                    Background="#F8F9FA"
+                    Foreground="#263248"
+                    BorderThickness="1"
+                    BorderBrush="#E0E0E0"
+                    Click="BtnFederations_Click"
+                    />
+
+                    <Button Content="🏅 Виды спорта"
+                    Height="52"
+                    FontSize="16"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,6"
+                    Background="#F8F9FA"
+                    Foreground="#263248"
+                    BorderThickness="1"
+                    BorderBrush="#E0E0E0"
+                    Click="BtnSportTypes_Click"
+                    />
+
+                    <Button Content="📄 Шаблоны Word"
+                    Height="52"
+                    FontSize="16"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,6"
+                    Background="#F8F9FA"
+                    Foreground="#263248"
+                    BorderThickness="1"
+                    BorderBrush="#E0E0E0"
+                    />
                 </StackPanel>
             </Border>
         </Grid>

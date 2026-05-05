@@ -68,30 +68,26 @@ namespace SportFederationsAccounting.WPF
 
         private void BtnAddFederation_Click(object sender, RoutedEventArgs e)
         {
-            var window = new FederationAddWindow();
-            if (window.ShowDialog() == true)
-            {
-                RefreshList();   // обновляем список
-            }
+            var addWindow = new FederationWindow();
+
+            // Исправленная подписка
+            addWindow.FederationSaved += code => RefreshList(code);
+
+            addWindow.ShowDialog();
         }
 
         private void dgFederations_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (dgFederations.SelectedItem is Federation selectedFederation)
             {
-                var editWindow = new FederationEditWindow(selectedFederation);
+                var editWindow = new FederationWindow(selectedFederation);
 
-                if (editWindow.ShowDialog() == true)
-                {
-                    // После успешного редактирования обновляем список
-                    LoadFederations();
+                // Исправленная подписка
+                editWindow.FederationSaved += code => RefreshList(code);
 
-                    // Выделяем отредактированную федерацию
-                    dgFederations.SelectedItem = selectedFederation;
-                    dgFederations.ScrollIntoView(selectedFederation);
-                }
+                editWindow.ShowDialog();
             }
         }
-        
+
     }
 }

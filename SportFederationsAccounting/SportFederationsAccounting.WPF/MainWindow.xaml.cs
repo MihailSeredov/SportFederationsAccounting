@@ -72,8 +72,8 @@ namespace SportFederationsAccounting.WPF
                 slideDown.Begin();
                 isSpравочнаяPanelOpen = true;
 
-                BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(69, 90, 100)); // #455A64
-                BtnSpравочная.Foreground = new SolidColorBrush(Color.FromRgb(17, 17, 17));   // ← выделяем кнопку
+                BtnSpравочная.Background = new SolidColorBrush(Color.FromRgb(190, 230, 253)); 
+                BtnSpравочная.Foreground = new SolidColorBrush(Color.FromRgb(38, 50, 72));   // ← выделяем кнопку
             }
         }
 
@@ -93,6 +93,12 @@ namespace SportFederationsAccounting.WPF
             // Переключаемся на страницу Федераций
             MainContent.Content = new FederationsPage();
         }
+        private void BtnSportTypes_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new SportTypesPage(isSelectionMode: false);  // режим управления
+            window.ShowDialog();
+        }
+        
 
         private void LoadHomePage()
         {
