@@ -9,10 +9,35 @@
     <ApplicationIcon>gerb-cheliabins.ico</ApplicationIcon>
     <AssemblyName>SportFederationsAccounting</AssemblyName>
     <RootNamespace>SportFederationsAccounting.WPF</RootNamespace>
+    <NuGetAuditMode>all</NuGetAuditMode>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Images\Icons\check.png" />
+    <None Remove="Pages\Images\Icons\cross.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>7</VersionMinor>
+      <VersionMajor>8</VersionMajor>
+      <Guid>00020905-0000-0000-c000-000000000046</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+      <Private>True</Private>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="gerb-cheliabins.ico" />
+    <Resource Include="Pages\Images\Icons\check.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\Icons\cross.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

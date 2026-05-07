@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SportFederationsAccounting.WPF.Pages;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -98,7 +99,19 @@ namespace SportFederationsAccounting.WPF
             var window = new SportTypesPage(isSelectionMode: false);  // режим управления
             window.ShowDialog();
         }
-        
+        private void BtnTemplates_Click(object sender, RoutedEventArgs e)
+        {
+            if (isSpравочнаяPanelOpen)
+            {
+                var slideUp = (Storyboard)FindResource("SlideUpAnimation");
+                slideUp.Begin();
+                isSpравочнаяPanelOpen = false;
+                ResetSpравочнаяButton();
+            }
+
+            MainContent.Content = new SportFederationsAccounting.WPF.Pages.TemplatesUserControl();
+        }
+
 
         private void LoadHomePage()
         {

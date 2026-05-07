@@ -1,0 +1,109 @@
+﻿<Window x:Class="SportFederationsAccounting.WPF.Windows.TemplateCardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Карточка шаблона" 
+        Height="720" 
+        Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#F8F9FA">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Название шаблона -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <TextBlock Text="Название шаблона:" FontSize="16" VerticalAlignment="Center" Width="160"/>
+            <TextBox x:Name="tbName" Width="500" Height="36" FontSize="16" Margin="10,0,0,0"  VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Кнопки загрузки -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
+            <Button Content="📄 Загрузить .docx файл" 
+                    Width="200" Height="45" FontSize="16"
+                    Click="BtnLoadFile_Click"/>
+            <Button x:Name="btnSaveToDisk" 
+            Content="💾 Сохранить на диск " 
+            Width="200" Height="45" FontSize="16" Margin="15,0,0,0"
+            Click="BtnSaveToDisk_Click"
+            Visibility="Collapsed"/>
+            <!-- по умолчанию скрыта -->
+            <TextBlock x:Name="txtFileName" Margin="15,0,0,0" VerticalAlignment="Center" FontSize="15"/>
+        </StackPanel>
+
+        <!-- Таблица плейсхолдеров -->
+        <DataGrid x:Name="dgMappings" Grid.Row="2" AutoGenerateColumns="False" 
+          IsReadOnly="False" CanUserAddRows="False" CanUserDeleteRows="False"
+          Margin="0,10,0,0" RowHeight="40" >
+
+            <DataGrid.Columns>
+                <!-- Статус с иконкой и текстом -->
+                <DataGridTemplateColumn Header="Статус" Width="50" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock FontSize="20" Margin="0,2,0,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMissing}" Value="False">
+                                                    <Setter Property="Text" Value="✅"/>
+                                                    <Setter Property="Foreground" Value="#22C55E"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsMissing}" Value="True">
+                                                    <Setter Property="Text" Value="❌"/>
+                                                    <Setter Property="Foreground" Value="#EF4444"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Плейсхолдер -->
+                <DataGridTextColumn Header="Плейсхолдер" 
+                            Binding="{Binding Placeholder}" 
+                            Width="*" 
+                            IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="15"/>
+                            <Setter Property="FontWeight" Value="Medium"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Значение заполнения -->
+                <DataGridComboBoxColumn Header="Значение заполнения" 
+                                Width="*" 
+                                x:Name="colMappedTo"
+                                SelectedValueBinding="{Binding MappedTo, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="15"/>
+                            <Setter Property="FontWeight" Value="Medium"/>
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки внизу -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Записать" Width="140" Height="45" FontSize="16" 
+                    Background="#263248" Foreground="White" Click="BtnSave_Click" Margin="0,0,10,0"/>
+            <Button Content="Закрыть" Width="140" Height="45" FontSize="16" Click="BtnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

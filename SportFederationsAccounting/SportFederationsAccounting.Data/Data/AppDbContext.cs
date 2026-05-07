@@ -20,6 +20,8 @@ namespace SportFederationsAccounting.Data
         public DbSet<AccreditationStatus> AccreditationStatuses { get; set; } = null!;
         public DbSet<FederationState> FederationStates { get; set; } = null!;
         public DbSet<ContactPerson> ContactPersons { get; set; } = null!;
+        public DbSet<Template> Templates { get; set; } = null!;
+        public DbSet<TemplateMapping> TemplateMappings { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

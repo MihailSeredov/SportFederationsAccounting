@@ -1,7 +1,7 @@
 ﻿<Window x:Class="SportFederationsAccounting.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Учёт спортивных федераций v0.2.4"
+        Title="Учёт спортивных федераций v0.2.6"
         Height="820"
         Width="1450"
         MinWidth="1100"
@@ -132,6 +132,7 @@
                     Foreground="#263248"
                     BorderThickness="1"
                     BorderBrush="#E0E0E0"
+                    Click="BtnTemplates_Click"
                     />
                 </StackPanel>
             </Border>
